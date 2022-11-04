@@ -1,0 +1,16 @@
+input:checked{
+    background-color: red;
+    box-shadow: 0 0 4px red;
+    color:red;
+}
+input:checked + label{
+    background-color: blue;
+    color:red;
+}
+body{
+    background-color: yellow;
+}
+.completed{
+    background-color: green;
+    border:solid 2px red;
+}
