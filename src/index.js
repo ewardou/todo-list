@@ -1,5 +1,5 @@
 import { todos } from "./todo";
-import {createProject,addCompletedClass} from "./dom";
+import {createProjectElement,addCompletedClass} from "./dom";
 
 let todoFunctions=todos();
 let lol=todoFunctions.createNewTodo("jj","jkd","jdl","jd");
@@ -17,10 +17,6 @@ todoFunctions.addTodoToProject(testProject2,lol2,testItem2);
 todoFunctions.addProjectToArray(testProject,testProject2);
 console.log(todoFunctions.getProjects());
 
-let testProject3=todoFunctions.createNewProject("test");
-todoFunctions.addProjectToArray(testProject3);
-console.log(todoFunctions.getProjects());
-
 function getIndexOfProject(event){
     let projectContainer=event.target.closest(".project");
     let title=projectContainer.querySelector("p");
@@ -34,10 +30,10 @@ function getIndexOfProject(event){
     return index;
 }
 
-createProject(testProject);
-createProject(testProject2);
+createProjectElement(testProject);
+createProjectElement(testProject2);
 
-let checkboxes=document.querySelectorAll("input");
+let checkboxes=document.querySelectorAll("input[type=checkbox]");
 checkboxes.forEach((checkbox)=>{
     checkbox.addEventListener("click",(event)=>{
         addCompletedClass(event);
@@ -46,3 +42,51 @@ checkboxes.forEach((checkbox)=>{
         todoFunctions.markAsCompleted(project[getIndexOfProject(event)].todoItems[indexOfTodo]);
     });
 });
+
+(function addHandlers(){
+    let newProjectButton=document.querySelector("header>button");
+    let overlay=document.querySelector(".overlay");
+    let projectModal=document.querySelector(".project-modal");
+    let closeButton=document.querySelector(".close");
+    let addProjectButton=document.querySelector(".project-modal>form>button:last-of-type");
+
+    newProjectButton.addEventListener("click",()=>{
+        overlay.classList.add("active");
+        projectModal.classList.add("active");
+    });
+    function closeModal(){
+        overlay.classList.remove("active")
+        projectModal.classList.remove("active");
+    };
+    function resetForm(){
+        document.querySelector(".project-modal>form").reset();
+        document.querySelector(".project-modal p").textContent="";
+    }
+    overlay.addEventListener("click",()=>{
+        closeModal();
+        resetForm();
+    });
+    closeButton.addEventListener("click",()=>{
+        closeModal();
+        resetForm();
+    });
+
+    addProjectButton.addEventListener("click",()=>{
+        let projectNameInput=document.querySelector(".project-modal input[type=text]");
+        let message=document.querySelector(".project-modal p");
+        let regex=/[\S]+/gm;
+        if (!(regex.test(projectNameInput.value))){
+            message.textContent="Please enter a name";
+            return;
+        } else if(todoFunctions.checkRepeatedProjectName(projectNameInput.value.trim())){
+            message.textContent="This name is already taken, please enter another one"
+            return;
+        } else {
+            let newProject=todoFunctions.createNewProject(projectNameInput.value.trim());
+            todoFunctions.addProjectToArray(newProject);
+            createProjectElement(newProject);
+            resetForm();
+            closeModal();
+        }
+    });
+})();

@@ -1,4 +1,4 @@
-function createProject(project){
+function createProjectElement(project){
     let container=document.querySelector(".container");
     let projectContainer=document.createElement("div");
     let title=document.createElement("p");
@@ -33,4 +33,4 @@ function addCompletedClass(event){
     }
 };
 
-export {createProject,addCompletedClass};
+export {createProjectElement,addCompletedClass};

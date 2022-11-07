@@ -9,8 +9,6 @@ function todos(){
         };
     };
     function createNewProject(projectName){
-        let check=checkUniqueProjectName(projectName);
-        if (check) {return};
         let todoItems=[];
         return {
             projectName,
@@ -19,6 +17,7 @@ function todos(){
     };
     function addProjectToArray(...project){
         projects.push(...project);
+        console.log(projects);
     };
     let projects=[];
     let getProjects= ()=>projects;
@@ -31,13 +30,10 @@ function todos(){
         console.log(todo.completed);
     };
 
-    function checkUniqueProjectName(projectName){
+    function checkRepeatedProjectName(projectName){
         let projectsArray=getProjects();
         let check=projectsArray.some((project)=>project.projectName===projectName);
-        if (check){
-            alert("This name is already assigned.");
-            return check;
-        };
+        return check;
     };
     return{
         createNewTodo,
@@ -45,7 +41,8 @@ function todos(){
         addTodoToProject,
         markAsCompleted,
         addProjectToArray,
-        getProjects
+        getProjects,
+        checkRepeatedProjectName
     };
 };
 export {todos};

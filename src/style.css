@@ -14,3 +14,31 @@ body{
     background-color: green;
     border:solid 2px red;
 }
+.overlay{
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    pointer-events: none;
+    transform: scale(0);
+    transition: ease-in-out 150ms;
+}
+.overlay.active{
+    transform: scale(1);
+    pointer-events: all;
+    transition: ease-in-out 150ms;
+}
+.project-modal{
+    background-color: white;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: scale(0);
+    transition: ease-in-out 150ms;
+}
+.project-modal.active{
+    transform: translate(-50%,-50%) scale(1);
+    transition: ease-in-out 150ms;
+}
