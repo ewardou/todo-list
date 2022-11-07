@@ -1,13 +1,18 @@
-function addProject(project){
+function createProject(project){
     let container=document.querySelector(".container");
+    let projectContainer=document.createElement("div");
     let title=document.createElement("p");
     title.textContent=`${project.projectName}`;
-    container.append(title);
+    projectContainer.append(title);
     let todoList=project.todoItems;
     todoList.forEach((todo)=>{
         let item=createTodoElement(todo);
-        container.append(item);
+        let index=project.todoItems.indexOf(todo);
+        item.setAttribute("data-index",index);
+        projectContainer.append(item);
     });
+    projectContainer.classList.add("project");
+    container.append(projectContainer);
 };
 function createTodoElement(todo){
     let div=document.createElement("div");
@@ -28,4 +33,4 @@ function addCompletedClass(event){
     }
 };
 
-export {addProject,addCompletedClass};
+export {createProject,addCompletedClass};
