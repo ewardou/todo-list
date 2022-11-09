@@ -1,10 +1,16 @@
+//Put in a factory pattern
 function createProjectElement(project){
     let container=document.querySelector(".container");
     let projectContainer=document.createElement("div");
     let title=document.createElement("p");
+    let addTodoButton=document.createElement("button");
+    addTodoButton.textContent="+";
+
     title.textContent=`${project.projectName}`;
-    projectContainer.append(title);
+    projectContainer.append(title,addTodoButton);
+    openTodoModal(addTodoButton);
     let todoList=project.todoItems;
+    // Refactor this section 
     todoList.forEach((todo)=>{
         let item=createTodoElement(todo);
         let index=project.todoItems.indexOf(todo);
@@ -32,5 +38,13 @@ function addCompletedClass(event){
         parent.classList.remove("completed");
     }
 };
+function openTodoModal(button){
+    button.addEventListener("click",()=>{
+        let todoModal=document.querySelector(".todo-modal");
+        let overlay=document.querySelector(".overlay");
+        todoModal.classList.add("active");
+        overlay.classList.add("active");
+    })
+}
 
 export {createProjectElement,addCompletedClass};

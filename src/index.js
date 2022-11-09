@@ -1,6 +1,7 @@
 import { todos } from "./todo";
 import {createProjectElement,addCompletedClass} from "./dom";
 
+//Delete test projects
 let todoFunctions=todos();
 let lol=todoFunctions.createNewTodo("jj","jkd","jdl","jd");
 let testItem=todoFunctions.createNewTodo("take the trash","none","date","priority");
@@ -33,7 +34,7 @@ function getIndexOfProject(event){
 createProjectElement(testProject);
 createProjectElement(testProject2);
 
-let checkboxes=document.querySelectorAll("input[type=checkbox]");
+let checkboxes=document.querySelectorAll("div[data-index]>input[type=checkbox]");
 checkboxes.forEach((checkbox)=>{
     checkbox.addEventListener("click",(event)=>{
         addCompletedClass(event);
@@ -47,7 +48,8 @@ checkboxes.forEach((checkbox)=>{
     let newProjectButton=document.querySelector("header>button");
     let overlay=document.querySelector(".overlay");
     let projectModal=document.querySelector(".project-modal");
-    let closeButton=document.querySelector(".close");
+    let todoModal=document.querySelector(".todo-modal");
+    let closeButton=document.querySelectorAll(".close");
     let addProjectButton=document.querySelector(".project-modal>form>button:last-of-type");
 
     newProjectButton.addEventListener("click",()=>{
@@ -57,6 +59,7 @@ checkboxes.forEach((checkbox)=>{
     function closeModal(){
         overlay.classList.remove("active")
         projectModal.classList.remove("active");
+        todoModal.classList.remove("active");
     };
     function resetForm(){
         document.querySelector(".project-modal>form").reset();
@@ -66,9 +69,11 @@ checkboxes.forEach((checkbox)=>{
         closeModal();
         resetForm();
     });
-    closeButton.addEventListener("click",()=>{
-        closeModal();
-        resetForm();
+    closeButton.forEach(button=>{
+        button.addEventListener("click",()=>{
+            closeModal();
+            resetForm();
+        });
     });
 
     addProjectButton.addEventListener("click",()=>{
