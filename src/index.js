@@ -18,6 +18,19 @@ todoFunctions.addTodoToProject(testProject2,lol2,testItem2);
 todoFunctions.addProjectToArray(testProject,testProject2);
 console.log(todoFunctions.getProjects());
 
+function openTodoModal(){
+    let todoModal=document.querySelector(".todo-modal");
+    let overlay=document.querySelector(".overlay");
+    todoModal.classList.add("active");
+    overlay.classList.add("active");
+}
+
+function addProjectIdentifier(event){
+    let projectIndex=getIndexOfProject(event);
+    let createTodoButton=document.querySelector(".todo-modal button:last-of-type");
+    createTodoButton.setAttribute("data-project-index",projectIndex);
+} 
+
 function getIndexOfProject(event){
     let projectContainer=event.target.closest(".project");
     let title=projectContainer.querySelector("p");
@@ -34,17 +47,8 @@ function getIndexOfProject(event){
 createProjectElement(testProject);
 createProjectElement(testProject2);
 
-let checkboxes=document.querySelectorAll("div[data-index]>input[type=checkbox]");
-checkboxes.forEach((checkbox)=>{
-    checkbox.addEventListener("click",(event)=>{
-        addCompletedClass(event);
-        let project=todoFunctions.getProjects();
-        let indexOfTodo=Number(event.target.parentNode.getAttribute("data-index"));
-        todoFunctions.markAsCompleted(project[getIndexOfProject(event)].todoItems[indexOfTodo]);
-    });
-});
-
 (function addHandlers(){
+    // Project Modal
     let newProjectButton=document.querySelector("header>button");
     let overlay=document.querySelector(".overlay");
     let projectModal=document.querySelector(".project-modal");
@@ -64,6 +68,10 @@ checkboxes.forEach((checkbox)=>{
     function resetForm(){
         document.querySelector(".project-modal>form").reset();
         document.querySelector(".project-modal p").textContent="";
+        document.querySelector(".todo-modal>form").reset();
+        document.querySelector("#date").setAttribute("disabled","");
+        let createTodoButton=document.querySelector(".todo-modal button:last-of-type");
+        createTodoButton.removeAttribute("data-project-index");    
     }
     overlay.addEventListener("click",()=>{
         closeModal();
@@ -92,6 +100,67 @@ checkboxes.forEach((checkbox)=>{
             createProjectElement(newProject);
             resetForm();
             closeModal();
+            addHandlersToPlusButtons();
         }
     });
+
+    function addHandlersToPlusButtons(){
+        let plusButtons=document.querySelectorAll(".project>button");
+        plusButtons.forEach(button=>{
+            button.addEventListener("click",(event)=>{
+                openTodoModal();
+                addProjectIdentifier(event);
+            });
+        })
+    }
+    addHandlersToPlusButtons();
+    
+    function addHandlersToCheckboxes(){
+        let checkboxes=document.querySelectorAll("div[data-index]>input[type=checkbox]");
+        checkboxes.forEach((checkbox)=>{
+        checkbox.addEventListener("click",(event)=>{
+            addCompletedClass(event);
+            let project=todoFunctions.getProjects();
+            let indexOfTodo=Number(event.target.parentNode.getAttribute("data-index"));
+            todoFunctions.markAsCompleted(project[getIndexOfProject(event)].todoItems[indexOfTodo]);
+            });
+        });
+    };
+    addHandlersToCheckboxes();    
+
+    //Todo Modal
+    let deadlineCheckbox=document.querySelector("#deadline");
+    deadlineCheckbox.addEventListener("click",(event)=>{
+        let dateInput=document.querySelector("#date")
+        return (event.target.checked) ? dateInput.removeAttribute("disabled") : dateInput.setAttribute("disabled","");
+    });
+
+    let addTodoButton=document.querySelector(".todo-modal button:last-of-type");
+    function getTodoValues(){
+        let title=document.querySelector("#title").value;
+        let description=document.querySelector("#description").value;
+        let date=document.querySelector("#date").value;
+        let priority=document.querySelector("#priority").checked;    
+        return [title,description,date,priority];
+    };
+
+    addTodoButton.addEventListener("click",(event)=>{
+        let todo=todoFunctions.createNewTodo(...getTodoValues());
+        console.log(todo);
+        let projectIndex=event.target.getAttribute("data-project-index");
+        let project=todoFunctions.getProjects()[projectIndex];
+        todoFunctions.addTodoToProject(project,todo);
+        console.log(project.todoItems);
+        resetForm();
+        closeModal();
+        renderProjects();
+    })
+
+    function renderProjects(){
+        document.querySelector(".container").textContent=""
+        let projectArray=todoFunctions.getProjects();
+        projectArray.forEach(project=>createProjectElement(project));
+        addHandlersToPlusButtons();
+        addHandlersToCheckboxes();
+    }
 })();

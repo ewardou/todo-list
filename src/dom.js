@@ -8,15 +8,7 @@ function createProjectElement(project){
 
     title.textContent=`${project.projectName}`;
     projectContainer.append(title,addTodoButton);
-    openTodoModal(addTodoButton);
-    let todoList=project.todoItems;
-    // Refactor this section 
-    todoList.forEach((todo)=>{
-        let item=createTodoElement(todo);
-        let index=project.todoItems.indexOf(todo);
-        item.setAttribute("data-index",index);
-        projectContainer.append(item);
-    });
+    addTodoItems(project,projectContainer);
     projectContainer.classList.add("project");
     container.append(projectContainer);
 };
@@ -28,6 +20,10 @@ function createTodoElement(todo){
     let label=document.createElement("label");
     label.textContent=`${todo.title}`;
     div.append(checkbox,label);
+    if (todo.completed){
+        div.classList.add("completed");
+        checkbox.checked=true;
+    };
     return div;
 };
 function addCompletedClass(event){
@@ -38,13 +34,14 @@ function addCompletedClass(event){
         parent.classList.remove("completed");
     }
 };
-function openTodoModal(button){
-    button.addEventListener("click",()=>{
-        let todoModal=document.querySelector(".todo-modal");
-        let overlay=document.querySelector(".overlay");
-        todoModal.classList.add("active");
-        overlay.classList.add("active");
-    })
-}
+function addTodoItems(project,projectContainer){
+    let todoList=project.todoItems;
+    todoList.forEach((todo)=>{
+        let item=createTodoElement(todo);
+        let index=project.todoItems.indexOf(todo);
+        item.setAttribute("data-index",index);
+        projectContainer.append(item);
+    });
+} 
 
 export {createProjectElement,addCompletedClass};
