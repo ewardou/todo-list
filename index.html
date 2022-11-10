@@ -30,8 +30,12 @@
                 <textarea id="description" cols="30" rows="10" maxlength="400"></textarea>
             </div>
             <div>
-                <label for="date">Due date</label>
-                <input type="date" id="date">
+                <p>Due date</p>
+                <div>
+                    <input type="checkbox" id="deadline">
+                    <label for="deadline">Task has a deadline</label>
+                </div>
+                <input type="date" id="date" disabled>
             </div>
             <div>
                 <input type="checkbox" id="priority">
