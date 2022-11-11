@@ -1,9 +1,20 @@
-body{
-    background-color: yellow;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Poppins&display=swap');
+
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: 'Noto Sans JP', sans-serif; */
+    font-family: 'Poppins', sans-serif;
 }
-.completed{
-    background-color: green;
-    border:solid 2px red;
+body{
+    /* background-color: yellow; */
+    background:linear-gradient(110deg, #a60af3 40%, rgba(0, 0, 0, 0) 30%), radial-gradient(farthest-corner at 0% 0%, #7a00cc 70%, #c03fff 70%);
+    /* background: linear-gradient(to bottom right, #33475b, #0033CC, #FF77CC, rgb(255, 122, 89)); */
+    background-repeat: no-repeat;
+    background-size:cover;
+    min-height: 100vh;
+    padding: 10px;
 }
 .overlay{
     position:absolute;
@@ -15,6 +26,7 @@ body{
     pointer-events: none;
     transform: scale(0);
     transition: ease-in-out 150ms;
+    z-index: 2;
 }
 .overlay.active{
     transform: scale(1);
@@ -29,9 +41,124 @@ body{
     left: 50%;
     transform: scale(0);
     transition: ease-in-out 150ms;
+    z-index: 2;
 }
 .project-modal.active,
 .todo-modal.active{
     transform: translate(-50%,-50%) scale(1);
     transition: ease-in-out 150ms;
+}
+.project{
+    background-color: white;
+    margin-top:10px;
+    position: relative;
+    border: 1px solid black;
+}
+.project>button{
+    position:absolute;
+    right: 4px;
+    top:4px;
+    width: 26px;
+    font-size: 1.1rem;
+    background-color: transparent;
+    border:0;
+    border-radius: 50%;
+    font-weight: bold;
+}
+.project>button:hover{
+    background-color: rgb(200, 129, 233);
+}
+.project>button:active{
+    background-color: rgb(129, 74, 202);
+}
+.project>p{
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 5px;
+}
+.project div{
+    padding: 5px;
+}
+.project div+div{
+    border-top: 1px solid gray;
+}
+.project>div{
+    display:flex;
+    align-items: center;
+    gap: 5px;
+}
+.project div.completed{
+    background-color: rgb(230, 205, 240);
+    border:solid 2px rgb(132, 0, 255);
+}
+input[type="checkbox"]{
+    accent-color: rgb(98, 0, 255);
+}
+header>button{
+    padding:5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+}
+header>button:hover{
+    background-color: #c03fff;
+    color: white;
+}
+header>button:active{
+    background-color: #a60af3;
+    color: white;
+}
+.project-modal{
+    padding: 10px;
+    width: 370px;
+    border: black solid 1px;
+    text-align: center;
+}
+.project-modal label{
+    font-weight: bold;
+}
+.project-modal button:first-of-type{
+    padding: 0px 4px;
+}
+.project-modal p{
+    font-size: 0.8rem;
+}
+.project-modal input{
+    width: 90%;
+    padding: 2px 4px;
+}
+.project-modal>form *{
+    margin-bottom: 5px;
+}
+.project-modal button{
+    padding: 2px 8px;
+}
+.todo-modal{
+    padding: 10px;
+    border: 1px solid black;
+    width: 300px;
+}
+.todo-modal form{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.todo-modal textarea,
+.todo-modal input[type="text"]{
+    width: 100%;
+    resize: none;
+    padding: 2px 4px;
+    margin-top: 5px;
+    border: 1px solid gray;
+}
+label[for="title"],
+label[for="description"],
+.todo-modal p{
+    font-weight: bold;
+}
+.todo-modal button:first-of-type{
+    align-self: flex-end;
+    padding: 0px 4px;
+    margin-bottom: -15px;
 }
