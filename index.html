@@ -11,8 +11,8 @@
     <div class="overlay"></div>
     <div class="project-modal">
         <form>
+            <label for="name">Introduce the name of your new project</label>
             <button type="button" class="close">&Cross;</button>
-            <label for="name">Introduce the name of your new project.</label>
             <input type="text" id="name">
             <p></p>
             <button type="button">Add</button>
@@ -22,12 +22,12 @@
         <form>
             <button type="button" class="close">&Cross;</button>
             <div>
-                <label for="title">Title</label>
+                <label for="title">Title*</label>
                 <input type="text" id="title">
             </div>
             <div>
                 <label for="description">Description</label>
-                <textarea id="description" cols="30" rows="10" maxlength="400"></textarea>
+                <textarea id="description" cols="25" rows="10" maxlength="400"></textarea>
             </div>
             <div>
                 <p>Due date</p>
@@ -44,7 +44,7 @@
             <button type="button">Create</button>
         </form>
     </div>
-    <header><button>Create new project</button></header>
+    <header><button>Create new list</button></header>
     <div class="container"></div>
     <script src="./main.js"></script>
 </body>
