@@ -1,3 +1,5 @@
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+
 //Put in a factory pattern
 function createProjectElement(project){
     let container=document.querySelector(".container");
@@ -19,7 +21,15 @@ function createTodoElement(todo){
 
     let label=document.createElement("label");
     label.textContent=`${todo.title}`;
-    div.append(checkbox,label);
+
+    let date=document.createElement("p");
+    let format=capitalize(formatDistanceToNow(new Date(todo.dueDate),{addSuffix:true}));
+    date.textContent=format;
+
+    div.append(checkbox,label,date);
+    if(todo.priority){
+        div.classList.add("priority");
+    };
     if (todo.completed){
         div.classList.add("completed");
         checkbox.checked=true;
@@ -42,6 +52,10 @@ function addTodoItems(project,projectContainer){
         item.setAttribute("data-index",index);
         projectContainer.append(item);
     });
-} 
+};
+
+function capitalize(string){
+    return string[0].toUpperCase()+string.slice(1);
+}
 
 export {createProjectElement,addCompletedClass};

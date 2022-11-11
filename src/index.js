@@ -3,12 +3,12 @@ import {createProjectElement,addCompletedClass} from "./dom";
 
 //Delete test projects
 let todoFunctions=todos();
-let lol=todoFunctions.createNewTodo("jj","jkd","jdl","jd");
-let testItem=todoFunctions.createNewTodo("take the trash","none","date","priority");
+let lol=todoFunctions.createNewTodo("jj","jkd","2021-11-11",false);
+let testItem=todoFunctions.createNewTodo("take the trash","none","2023-02-15",false);
 let testProject=todoFunctions.createNewProject("test");
 
-let lol2=todoFunctions.createNewTodo("aaa","aaa","aaa","aaa");
-let testItem2=todoFunctions.createNewTodo("go to the bank","none","date","priority");
+let lol2=todoFunctions.createNewTodo("aaa","aaa","2018-07-10",false);
+let testItem2=todoFunctions.createNewTodo("go to the bank","none","2023-08-18",false);
 let testProject2=todoFunctions.createNewProject("test 2 lol");
 
 
@@ -68,6 +68,7 @@ createProjectElement(testProject2);
     function resetForm(){
         document.querySelector(".project-modal>form").reset();
         document.querySelector(".project-modal p").textContent="";
+        document.querySelector(".todo-modal>form>p").textContent="";
         document.querySelector(".todo-modal>form").reset();
         document.querySelector("#date").setAttribute("disabled","");
         let createTodoButton=document.querySelector(".todo-modal button:last-of-type");
@@ -147,6 +148,12 @@ createProjectElement(testProject2);
     addTodoButton.addEventListener("click",(event)=>{
         let todo=todoFunctions.createNewTodo(...getTodoValues());
         console.log(todo);
+        let message=document.querySelector(".todo-modal>form>p");
+        let regex=/[\S]+/gm;
+        if (!(regex.test(todo.title))){
+            message.textContent="Please enter a title";
+            return;
+        };
         let projectIndex=event.target.getAttribute("data-project-index");
         let project=todoFunctions.getProjects()[projectIndex];
         todoFunctions.addTodoToProject(project,todo);

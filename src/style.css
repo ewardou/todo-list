@@ -53,6 +53,7 @@ body{
     margin-top:10px;
     position: relative;
     border: 1px solid black;
+    width: 500px;
 }
 .project>button{
     position:absolute;
@@ -90,6 +91,9 @@ body{
 .project div.completed{
     background-color: rgb(230, 205, 240);
     border:solid 2px rgb(132, 0, 255);
+}
+.priority{
+    background-color: rgb(247, 247, 136);
 }
 input[type="checkbox"]{
     accent-color: rgb(98, 0, 255);
@@ -161,4 +165,8 @@ label[for="description"],
     align-self: flex-end;
     padding: 0px 4px;
     margin-bottom: -15px;
+}
+.todo-modal>form>p{
+    font-weight: normal;
+    font-size: 0.8rem;
 }
