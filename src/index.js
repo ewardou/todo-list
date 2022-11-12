@@ -121,9 +121,8 @@ createProjectElement(testProject2);
         checkboxes.forEach((checkbox)=>{
         checkbox.addEventListener("click",(event)=>{
             addCompletedClass(event);
-            let project=todoFunctions.getProjects();
-            let indexOfTodo=Number(event.target.parentNode.getAttribute("data-index"));
-            todoFunctions.markAsCompleted(project[getIndexOfProject(event)].todoItems[indexOfTodo]);
+            let todo=getTodo(event);
+            todoFunctions.markAsCompleted(todo);
             });
         });
     };
@@ -174,10 +173,7 @@ createProjectElement(testProject2);
 
     function addMoreSection(event){
         let container=event.target.parentNode;
-        let projectArray=todoFunctions.getProjects();
-        let todoIndex=container.getAttribute("data-index");
-        let projectIndex=getIndexOfProject(event);
-        let todo=projectArray[projectIndex].todoItems[todoIndex];
+        let todo=getTodo(event);
         container.append(createMoreSection(todo));
         event.target.classList.add("open");
         event.target.classList.remove("close");
@@ -197,6 +193,7 @@ createProjectElement(testProject2);
                 let presentClass=event.target.getAttribute("class");
                 if (presentClass.includes("close")){
                     addMoreSection(event);
+                    addHandlersToRemoveButton();
                 } else {
                     removeMoreSection(event);
                 }
@@ -204,4 +201,27 @@ createProjectElement(testProject2);
         })
     };
     addHandlersToMoreButtons();
+
+    function getTodo(event){
+        let container=event.target.closest("div[data-index]");
+        let projectArray=todoFunctions.getProjects();
+        let todoIndex=container.getAttribute("data-index");
+        let projectIndex=getIndexOfProject(event);
+        let todo=projectArray[projectIndex].todoItems[todoIndex];
+        return todo;
+    }
+    function removeTodoElement(event){
+        let project=todoFunctions.getProjects()[getIndexOfProject(event)];
+        let todo=getTodo(event);
+        todoFunctions.removeTodo(project,todo);
+        renderProjects();
+    }
+    function addHandlersToRemoveButton(){
+        let removeButtons=document.querySelectorAll(".remove");
+        removeButtons.forEach(button=>{
+            button.addEventListener("click",event=>{
+                removeTodoElement(event);
+            })
+        })
+    }
 })();

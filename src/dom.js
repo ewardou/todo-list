@@ -81,8 +81,10 @@ function createMoreSection(todo){
 
     let editIcon=document.createElement("img");
     editIcon.setAttribute("src",edit);
+    editIcon.classList.add("edit")
     let removeIcon=document.createElement("img");
     removeIcon.setAttribute("src",remove);
+    removeIcon.classList.add("remove");
 
     container.append(descriptionDiv,editIcon,removeIcon);
     container.classList.add("more-todo");

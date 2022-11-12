@@ -29,6 +29,10 @@ function todos(){
         (todo.completed===false) ? todo.completed=true : todo.completed=false;
         console.log(todo.completed);
     };
+    function removeTodo(project,todo){
+        let index=project.todoItems.indexOf(todo);
+        project.todoItems.splice(index,1);
+    }
 
     function checkRepeatedProjectName(projectName){
         let projectsArray=getProjects();
@@ -42,7 +46,8 @@ function todos(){
         markAsCompleted,
         addProjectToArray,
         getProjects,
-        checkRepeatedProjectName
+        checkRepeatedProjectName,
+        removeTodo
     };
 };
 export {todos};
