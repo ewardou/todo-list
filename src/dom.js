@@ -1,5 +1,7 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import more from "./icons/more.svg";
+import edit from "./icons/edit.svg";
+import remove from "./icons/remove.svg";
 
 //Put in a factory pattern
 function createProjectElement(project){
@@ -34,6 +36,7 @@ function createTodoElement(todo){
     let moreIcon=document.createElement("img");
     moreIcon.setAttribute("src",more);
     moreIcon.classList.add("more");
+    moreIcon.classList.add("close");
 
     div.append(checkbox,label,date,moreIcon);
     if(todo.priority){
@@ -67,4 +70,23 @@ function capitalize(string){
     return string[0].toUpperCase()+string.slice(1);
 }
 
-export {createProjectElement,addCompletedClass};
+function createMoreSection(todo){
+    let container=document.createElement("div");
+    let descriptionDiv=document.createElement("div");
+    let descriptionTitle=document.createElement("p");
+    descriptionTitle.textContent="Description";
+    let description=document.createElement("p");
+    description.textContent=todo.description;
+    descriptionDiv.append(descriptionTitle,description);
+
+    let editIcon=document.createElement("img");
+    editIcon.setAttribute("src",edit);
+    let removeIcon=document.createElement("img");
+    removeIcon.setAttribute("src",remove);
+
+    container.append(descriptionDiv,editIcon,removeIcon);
+    container.classList.add("more-todo");
+    return container;
+}
+
+export {createProjectElement,addCompletedClass,createMoreSection};

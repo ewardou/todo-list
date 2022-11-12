@@ -1,5 +1,5 @@
 import { todos } from "./todo";
-import {createProjectElement,addCompletedClass} from "./dom";
+import {createProjectElement,addCompletedClass,createMoreSection} from "./dom";
 
 //Delete test projects
 let todoFunctions=todos();
@@ -169,5 +169,39 @@ createProjectElement(testProject2);
         projectArray.forEach(project=>createProjectElement(project));
         addHandlersToPlusButtons();
         addHandlersToCheckboxes();
+        addHandlersToMoreButtons();
     }
+
+    function addMoreSection(event){
+        let container=event.target.parentNode;
+        let projectArray=todoFunctions.getProjects();
+        let todoIndex=container.getAttribute("data-index");
+        let projectIndex=getIndexOfProject(event);
+        let todo=projectArray[projectIndex].todoItems[todoIndex];
+        container.append(createMoreSection(todo));
+        event.target.classList.add("open");
+        event.target.classList.remove("close");
+    };
+    function removeMoreSection(event){
+        let container=event.target.parentNode;
+        let todoIndex=container.getAttribute("data-index");
+        let moreSection=document.querySelector(`div[data-index="${todoIndex}"]>.more-todo`);
+        container.removeChild(moreSection);
+        event.target.classList.remove("open");
+        event.target.classList.add("close");
+    }
+    function addHandlersToMoreButtons(){
+        let moreButtons=document.querySelectorAll(".more");
+        moreButtons.forEach(button=>{
+            button.addEventListener("click",(event)=>{
+                let presentClass=event.target.getAttribute("class");
+                if (presentClass.includes("close")){
+                    addMoreSection(event);
+                } else {
+                    removeMoreSection(event);
+                }
+            })
+        })
+    };
+    addHandlersToMoreButtons();
 })();

@@ -185,3 +185,32 @@ label[for="description"],
     font-weight: normal;
     font-size: 0.8rem;
 }
+.more-todo{
+    display:flex;
+    grid-row: 3;
+    grid-column: 2/4;
+    background-color: #a60af3;
+    color: white;
+    padding: 5px;
+    font-size: 0.9rem;
+    align-items: flex-start;
+    gap:5px;
+}
+.more-todo div{
+    flex:1;
+}
+.more-todo p:first-of-type{
+    font-weight: bold;
+}
+.more-todo img{
+    filter: invert(95%) sepia(97%) saturate(14%) hue-rotate(213deg) brightness(104%) contrast(104%);
+    height: 32px;
+    padding: 2px;
+}
+.more-todo img:hover{
+    background-color:#9c94a0;
+    border-radius: 50%;
+}
+.more-todo img:active{
+    background-color:#bcb5c0;
+}
