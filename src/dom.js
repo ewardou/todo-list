@@ -1,4 +1,5 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import more from "./icons/more.svg";
 
 //Put in a factory pattern
 function createProjectElement(project){
@@ -23,10 +24,18 @@ function createTodoElement(todo){
     label.textContent=`${todo.title}`;
 
     let date=document.createElement("p");
-    let format=capitalize(formatDistanceToNow(new Date(todo.dueDate),{addSuffix:true}));
-    date.textContent=format;
+    if (todo.dueDate){
+        let format=capitalize(formatDistanceToNow(new Date(todo.dueDate),{addSuffix:true}));
+        date.textContent=format;    
+    } else {
+        date.textContent="";
+    };
 
-    div.append(checkbox,label,date);
+    let moreIcon=document.createElement("img");
+    moreIcon.setAttribute("src",more);
+    moreIcon.classList.add("more");
+
+    div.append(checkbox,label,date,moreIcon);
     if(todo.priority){
         div.classList.add("priority");
     };

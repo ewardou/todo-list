@@ -77,16 +77,31 @@ body{
     font-size: 1.1rem;
     padding: 5px;
 }
-.project div{
-    padding: 5px;
-}
 .project div+div{
     border-top: 1px solid gray;
 }
 .project>div{
-    display:flex;
+    display:grid;
+    grid-template-columns: min-content 1fr min-content;
+    grid-auto-rows: min-content;
     align-items: center;
-    gap: 5px;
+    column-gap: 5px;
+    padding: 5px;
+}
+.project>div>p{
+    font-size: 0.8rem;
+    grid-column: 2/4;
+    grid-row: 2;
+}
+.more{
+    height: 25px;
+}
+.more:hover{
+    border-radius: 50%;
+    background-color: rgb(200 129 233);
+}
+.more:active{
+    background-color: rgb(129 74 202);
 }
 .project div.completed{
     background-color: rgb(230, 205, 240);
