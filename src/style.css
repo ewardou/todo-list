@@ -34,7 +34,8 @@ body{
     transition: ease-in-out 150ms;
 }
 .project-modal,
-.todo-modal{
+.todo-modal,
+.edit-modal{
     background-color: white;
     position: absolute;
     top:50%;
@@ -44,7 +45,8 @@ body{
     z-index: 2;
 }
 .project-modal.active,
-.todo-modal.active{
+.todo-modal.active,
+.edit-modal.active{
     transform: translate(-50%,-50%) scale(1);
     transition: ease-in-out 150ms;
 }
@@ -153,18 +155,22 @@ header>button:active{
 .project-modal button{
     padding: 2px 8px;
 }
-.todo-modal{
+.todo-modal,
+.edit-modal{
     padding: 10px;
     border: 1px solid black;
     width: 300px;
 }
-.todo-modal form{
+.todo-modal form,
+.edit-modal form{
     display: flex;
     flex-direction: column;
     gap:10px;
 }
 .todo-modal textarea,
-.todo-modal input[type="text"]{
+.todo-modal input[type="text"],
+.edit-modal textarea,
+.edit-modal input[type="text"]{
     width: 100%;
     resize: none;
     padding: 2px 4px;
@@ -173,15 +179,18 @@ header>button:active{
 }
 label[for="title"],
 label[for="description"],
-.todo-modal p{
+.todo-modal p,
+.edit-modal p{
     font-weight: bold;
 }
-.todo-modal button:first-of-type{
+.todo-modal button:first-of-type,
+.edit-modal button:first-of-type{
     align-self: flex-end;
     padding: 0px 4px;
     margin-bottom: -15px;
 }
-.todo-modal>form>p{
+.todo-modal>form>p,
+.edit-modal>form>p{
     font-weight: normal;
     font-size: 0.8rem;
 }

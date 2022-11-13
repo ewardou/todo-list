@@ -53,8 +53,9 @@ createProjectElement(testProject2);
     let overlay=document.querySelector(".overlay");
     let projectModal=document.querySelector(".project-modal");
     let todoModal=document.querySelector(".todo-modal");
-    let closeButton=document.querySelectorAll(".close");
+    let closeButton=document.querySelectorAll("button.close");
     let addProjectButton=document.querySelector(".project-modal>form>button:last-of-type");
+    let editModal=document.querySelector(".edit-modal");
 
     newProjectButton.addEventListener("click",()=>{
         overlay.classList.add("active");
@@ -69,6 +70,7 @@ createProjectElement(testProject2);
         overlay.classList.remove("active")
         projectModal.classList.remove("active");
         todoModal.classList.remove("active");
+        editModal.classList.remove("active");
     };
     function resetForm(){
         document.querySelector(".project-modal>form").reset();
@@ -136,7 +138,7 @@ createProjectElement(testProject2);
     //Todo Modal
     let deadlineCheckbox=document.querySelector("#deadline");
     deadlineCheckbox.addEventListener("click",(event)=>{
-        let dateInput=document.querySelector("#date")
+        let dateInput=document.querySelector("#date");
         return (event.target.checked) ? dateInput.removeAttribute("disabled") : dateInput.setAttribute("disabled","");
     });
 
@@ -199,6 +201,7 @@ createProjectElement(testProject2);
                 if (presentClass.includes("close")){
                     addMoreSection(event);
                     addHandlersToRemoveButton();
+                    addHandlersToEditButton();
                 } else {
                     removeMoreSection(event);
                 }
@@ -262,4 +265,38 @@ createProjectElement(testProject2);
         document.querySelector("header>button:nth-of-type(2)").classList.add("close");
         document.querySelector("header>button:nth-of-type(2)").classList.remove("open");
     };
+
+    function addHandlersToEditButton(){
+        let editProjectButton=document.querySelectorAll(".more-todo img:first-of-type");
+        editProjectButton.forEach(button=>{
+            button.addEventListener("click",(event)=>{
+                editModal.classList.add("active");
+                overlay.classList.add("active");
+                let todo=getTodo(event);
+                getEditFormValues(todo);
+            });    
+        });
+    };
+    function getEditFormValues(todo){
+        let title=document.querySelector("#edit-title");
+        title.value=todo.title;
+        let description=document.querySelector("#edit-description");
+        description.value=todo.description;
+        let date=document.querySelector("#edit-date");
+        date.value=todo.dueDate;
+        document.querySelector("#edit-deadline").checked=false;
+        document.querySelector("#edit-date").setAttribute("disabled","");
+        if(todo.dueDate!==""){
+            document.querySelector("#edit-deadline").checked=true;
+            document.querySelector("#edit-date").removeAttribute("disabled");
+        }
+        let priority=document.querySelector("#edit-priority");
+        priority.checked=todo.priority;
+    }
+    let editDeadlineCheckbox=document.querySelector("#edit-deadline");
+    editDeadlineCheckbox.addEventListener("click",(event)=>{
+        let dateInput=document.querySelector("#edit-date");
+        return (event.target.checked) ? dateInput.removeAttribute("disabled") : dateInput.setAttribute("disabled","");
+    });
+
 })();
