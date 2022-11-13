@@ -91,4 +91,23 @@ function createMoreSection(todo){
     return container;
 }
 
-export {createProjectElement,addCompletedClass,createMoreSection};
+function createRemoveProjectSection(projectsArray){
+    let container=document.createElement("div");
+    projectsArray.forEach(project=>{
+        let p=document.createElement("p");
+        let checkbox=document.createElement("input");
+        checkbox.setAttribute("type","checkbox");
+        checkbox.setAttribute("id",project.projectName);
+        let label=document.createElement("label");
+        label.setAttribute("for",project.projectName);
+        label.textContent=project.projectName;
+        p.append(checkbox,label);
+        container.append(p);
+    });
+    let button=document.createElement("button");
+    button.textContent="Remove";
+    container.append(button);
+    return container;
+}
+
+export {createProjectElement,addCompletedClass,createMoreSection,createRemoveProjectSection};

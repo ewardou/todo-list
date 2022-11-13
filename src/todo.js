@@ -33,6 +33,10 @@ function todos(){
         let index=project.todoItems.indexOf(todo);
         project.todoItems.splice(index,1);
     }
+    function removeProject(project){
+        let index=projects.indexOf(project);
+        projects.splice(index,1)
+    }
 
     function checkRepeatedProjectName(projectName){
         let projectsArray=getProjects();
@@ -47,7 +51,8 @@ function todos(){
         addProjectToArray,
         getProjects,
         checkRepeatedProjectName,
-        removeTodo
+        removeTodo,
+        removeProject
     };
 };
 export {todos};

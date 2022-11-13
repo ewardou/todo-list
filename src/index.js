@@ -1,5 +1,5 @@
 import { todos } from "./todo";
-import {createProjectElement,addCompletedClass,createMoreSection} from "./dom";
+import {createProjectElement,addCompletedClass,createMoreSection,createRemoveProjectSection} from "./dom";
 
 //Delete test projects
 let todoFunctions=todos();
@@ -59,6 +59,11 @@ createProjectElement(testProject2);
     newProjectButton.addEventListener("click",()=>{
         overlay.classList.add("active");
         projectModal.classList.add("active");
+        if (document.querySelector("span>div")){
+            document.querySelector("span>div").remove();
+            document.querySelector("header>button:nth-of-type(2)").classList.add("close");
+            document.querySelector("header>button:nth-of-type(2)").classList.remove("open");            
+        }
     });
     function closeModal(){
         overlay.classList.remove("active")
@@ -224,4 +229,37 @@ createProjectElement(testProject2);
             })
         })
     }
+    let removeProjectButton=document.querySelector("header>button:nth-of-type(2)");
+    removeProjectButton.addEventListener("click",(event)=>{
+        let presentClass=event.target.getAttribute("class");
+        let container=document.querySelector("span");
+        if (presentClass.includes("close")){
+            container.append(createRemoveProjectSection(todoFunctions.getProjects()));
+            document.querySelector("span button").addEventListener("click",addHandlerToRemoveProjectButton);
+            event.target.classList.remove("close");
+            event.target.classList.add("open");
+        } else {
+            container.removeChild(container.querySelector("div"));
+            event.target.classList.remove("open");
+            event.target.classList.add("close");
+        }
+    })
+    function addHandlerToRemoveProjectButton(){
+        let checkboxes=document.querySelectorAll("span input[type='checkbox']");
+        checkboxes.forEach(checkbox=>{
+            if (checkbox.checked){
+                let title=checkbox.getAttribute("id");
+                let projectsArray=todoFunctions.getProjects();
+                projectsArray.forEach(project=>{
+                    if (project.projectName===title){
+                        todoFunctions.removeProject(projectsArray[projectsArray.indexOf(project)]);
+                    };
+                });
+                renderProjects();
+            };
+        });
+        document.querySelector("span div").remove();
+        document.querySelector("header>button:nth-of-type(2)").classList.add("close");
+        document.querySelector("header>button:nth-of-type(2)").classList.remove("open");
+    };
 })();

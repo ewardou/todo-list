@@ -214,3 +214,28 @@ label[for="description"],
 .more-todo img:active{
     background-color:#bcb5c0;
 }
+span>div{
+    background-color: white;
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    max-width:fit-content;
+    width: 400px;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    overflow: auto;
+    height: min-content;
+}
+span>div>p{
+    display: flex;
+    align-items: center;
+}
+span>div>p>label{
+    width: max-content;
+}
+header{
+    display: flex;
+    gap:15px;
+    align-items: flex-start;
+}
