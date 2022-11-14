@@ -25,9 +25,9 @@ function openTodoModal(){
     overlay.classList.add("active");
 }
 
-function addProjectIdentifier(event){
+function addProjectIdentifier(event,className){
     let projectIndex=getIndexOfProject(event);
-    let createTodoButton=document.querySelector(".todo-modal button:last-of-type");
+    let createTodoButton=document.querySelector(`${className} button:last-of-type`);
     createTodoButton.setAttribute("data-project-index",projectIndex);
 } 
 
@@ -117,7 +117,7 @@ createProjectElement(testProject2);
         plusButtons.forEach(button=>{
             button.addEventListener("click",(event)=>{
                 openTodoModal();
-                addProjectIdentifier(event);
+                addProjectIdentifier(event,".todo-modal");
             });
         })
     }
@@ -154,12 +154,7 @@ createProjectElement(testProject2);
     addTodoButton.addEventListener("click",(event)=>{
         let todo=todoFunctions.createNewTodo(...getTodoValues());
         console.log(todo);
-        let message=document.querySelector(".todo-modal>form>p");
-        let regex=/[\S]+/gm;
-        if (!(regex.test(todo.title))){
-            message.textContent="Please enter a title";
-            return;
-        };
+        if (checkEmptyNameField(".todo-modal",todo)){return};
         let projectIndex=event.target.getAttribute("data-project-index");
         let project=todoFunctions.getProjects()[projectIndex];
         todoFunctions.addTodoToProject(project,todo);
@@ -168,6 +163,14 @@ createProjectElement(testProject2);
         closeModal();
         renderProjects();
     })
+    function checkEmptyNameField(className,todo){
+        let message=document.querySelector(`${className}>form>p`);
+        let regex=/[\S]+/gm;
+        if (!(regex.test(todo.title))){
+            message.textContent="Please enter a title";
+            return true;
+        };
+    }
 
     function renderProjects(){
         document.querySelector(".container").textContent=""
@@ -274,6 +277,8 @@ createProjectElement(testProject2);
                 overlay.classList.add("active");
                 let todo=getTodo(event);
                 getEditFormValues(todo);
+                addTodoIdentifier(event);
+                addProjectIdentifier(event,".edit-modal");
             });    
         });
     };
@@ -298,5 +303,29 @@ createProjectElement(testProject2);
         let dateInput=document.querySelector("#edit-date");
         return (event.target.checked) ? dateInput.removeAttribute("disabled") : dateInput.setAttribute("disabled","");
     });
+
+    function modifyTodoValues(todo){
+        todo.title=document.querySelector("#edit-title").value;
+        todo.description=document.querySelector("#edit-description").value;
+        todo.dueDate=document.querySelector("#edit-date").value;
+        todo.priority=document.querySelector("#edit-priority").checked;
+    }
+    let makeChangesButton=document.querySelector(".edit-modal button:last-of-type");
+    makeChangesButton.addEventListener("click",(event)=>{
+        let projectIndex=event.target.getAttribute("data-project-index");
+        let todoIndex=event.target.getAttribute("data-todo-index");
+        let todo=todoFunctions.getProjects()[projectIndex].todoItems[todoIndex];
+        modifyTodoValues(todo);
+        if (checkEmptyNameField(".edit-modal",todo)){return};
+        closeModal();
+        renderProjects();
+        document.querySelector(".edit-modal>form>p").textContent="";
+    })
+    function addTodoIdentifier(event){
+        let container=event.target.closest("div[data-index]");
+        let todoIndex=container.getAttribute("data-index");
+        let createTodoButton=document.querySelector(".edit-modal button:last-of-type");
+        createTodoButton.setAttribute("data-todo-index",todoIndex);
+    }     
 
 })();
