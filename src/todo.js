@@ -1,3 +1,5 @@
+import {updateProjects} from "./index";
+
 function todos(){
     function createNewTodo(title,description,dueDate,priority,completed=false){
         return {
@@ -20,6 +22,7 @@ function todos(){
         console.log(projects);
     };
     let projects=[];
+    if (updateProjects()){projects=updateProjects()};
     let getProjects= ()=>projects;
 
     function addTodoToProject(project,...todo){

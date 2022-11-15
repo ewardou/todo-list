@@ -1,22 +1,8 @@
 import { todos } from "./todo";
 import {createProjectElement,addCompletedClass,createMoreSection,createRemoveProjectSection} from "./dom";
 
-//Delete test projects
+
 let todoFunctions=todos();
-let lol=todoFunctions.createNewTodo("jj","jkd","2021-11-11",false);
-let testItem=todoFunctions.createNewTodo("take the trash","none","2023-02-15",false);
-let testProject=todoFunctions.createNewProject("test");
-
-let lol2=todoFunctions.createNewTodo("aaa","aaa","2018-07-10",false);
-let testItem2=todoFunctions.createNewTodo("go to the bank","none","2023-08-18",false);
-let testProject2=todoFunctions.createNewProject("test 2 lol");
-
-
-todoFunctions.addTodoToProject(testProject,lol,testItem);
-todoFunctions.addTodoToProject(testProject2,lol2,testItem2);
-
-todoFunctions.addProjectToArray(testProject,testProject2);
-console.log(todoFunctions.getProjects());
 
 function openTodoModal(){
     let todoModal=document.querySelector(".todo-modal");
@@ -44,10 +30,8 @@ function getIndexOfProject(event){
     return index;
 }
 
-createProjectElement(testProject);
-createProjectElement(testProject2);
 
-(function addHandlers(){
+let addHandlers=(function(){
     // Project Modal
     let newProjectButton=document.querySelector("header>button");
     let overlay=document.querySelector(".overlay");
@@ -109,6 +93,7 @@ createProjectElement(testProject2);
             resetForm();
             closeModal();
             addHandlersToPlusButtons();
+            updateStorage();
         }
     });
 
@@ -162,6 +147,7 @@ createProjectElement(testProject2);
         resetForm();
         closeModal();
         renderProjects();
+        updateStorage();
     })
     function checkEmptyNameField(className,todo){
         let message=document.querySelector(`${className}>form>p`);
@@ -226,6 +212,7 @@ createProjectElement(testProject2);
         let todo=getTodo(event);
         todoFunctions.removeTodo(project,todo);
         renderProjects();
+        updateStorage();
     }
     function addHandlersToRemoveButton(){
         let removeButtons=document.querySelectorAll(".remove");
@@ -262,6 +249,7 @@ createProjectElement(testProject2);
                     };
                 });
                 renderProjects();
+                updateStorage();
             };
         });
         document.querySelector("span div").remove();
@@ -319,6 +307,7 @@ createProjectElement(testProject2);
         if (checkEmptyNameField(".edit-modal",todo)){return};
         closeModal();
         renderProjects();
+        updateStorage();
         document.querySelector(".edit-modal>form>p").textContent="";
     })
     function addTodoIdentifier(event){
@@ -327,5 +316,34 @@ createProjectElement(testProject2);
         let createTodoButton=document.querySelector(".edit-modal button:last-of-type");
         createTodoButton.setAttribute("data-todo-index",todoIndex);
     }     
-
+    
+    return {
+        renderProjects
+    }
 })();
+
+if (!(localStorage.getItem("projectsRecord"))){
+    initializeProjects();
+    updateStorage();
+    addHandlers.renderProjects();
+} else {
+    addHandlers.renderProjects();
+}
+function updateStorage(){
+    let value=todoFunctions.getProjects();
+    localStorage.setItem("projectsRecord",JSON.stringify(value));
+};
+function updateProjects(){
+    return JSON.parse(localStorage.getItem("projectsRecord"));
+};
+function initializeProjects(){
+    let testItem=todoFunctions.createNewTodo("Book flights and hotel room","","2023-07-20",true);
+    let testItem2=todoFunctions.createNewTodo("Buy the tickets","","2023-03-15",true);
+    let testItem3=todoFunctions.createNewTodo("Buy power bank","","",false);
+    let testItem4=todoFunctions.createNewTodo("Ask friends","","",false);
+    let concert=todoFunctions.createNewProject("Concert");
+    todoFunctions.addTodoToProject(concert,testItem,testItem2,testItem3,testItem4);
+    todoFunctions.addProjectToArray(concert);
+}
+console.log(todoFunctions.getProjects());
+export {updateProjects}
