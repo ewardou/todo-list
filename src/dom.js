@@ -3,7 +3,6 @@ import more from "./icons/more.svg";
 import edit from "./icons/edit.svg";
 import remove from "./icons/remove.svg";
 
-//Put in a factory pattern
 function createProjectElement(project){
     let container=document.querySelector(".container");
     let projectContainer=document.createElement("div");
