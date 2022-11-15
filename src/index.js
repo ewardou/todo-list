@@ -1,4 +1,5 @@
 import { todos } from "./todo";
+import "./style.css";
 import {createProjectElement,addCompletedClass,createMoreSection,createRemoveProjectSection} from "./dom";
 
 
